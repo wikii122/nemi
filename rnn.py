@@ -52,5 +52,5 @@ class RecurrentNeuralNetwork:
         """
         Return network response for given dataset
         """
-        return self.n.activate(dataset)
+        return self.n.activateOnDataset(dataset)
 

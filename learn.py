@@ -1,8 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 
 import loader
+import matplotlib.pyplot as plot
 
 from pybrain.datasets import SupervisedDataSet
 from rnn import RecurrentNeuralNetwork
@@ -18,9 +19,14 @@ def learn(input, output):
     dataset = SupervisedDataSet(14, 4)
     for ins, out in zip(input, output):
         dataset.addSample(ins, out)
-        
-    nn.set_learning_data(dataset)
-    nn.train(1)
+
+    learning, validating = dataset.splitWithProportion(0.8)
+    nn.set_learning_data(learning)
+    nn.train(100)
+
+    result = nn.calculate(validating)
+
+    return result, validating['target']
 
 
 def run(path):
@@ -29,7 +35,17 @@ def run(path):
     ins = zip(*[data[x] for x in data if x not in out])
     outs = zip(*[data[x] for x in data if x in out])
 
-    learn(ins, outs)
+    y_mod, y = learn(ins, outs)
+    e = sum(sum(x) for x in y-y_mod)
+    er = sum(sum(x**2) for x in y-y_mod)
+    
+    print("Błąd sumaryczny {e}".format(e=e))
+    print("Suma średniokwadratowy {e}".format(e=er))
+
+    plot.plot(y_mod)
+    plot.plot(y)
+
+    plot.show()
 
 
 if __name__ == "__main__":
