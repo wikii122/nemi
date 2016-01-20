@@ -9,7 +9,7 @@ def from_csv(path, ignore_units=True):
     Load given CSV file and return dict containing its contents under names
     found in first row.
 
-    Notes: 
+    Notes:
         - file correctness is not checked
         - delimiter: ','
         - quote: '"'

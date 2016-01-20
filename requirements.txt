@@ -1,4 +1,4 @@
-PyBrain==0.3
+PyBrain==0.3.3
 decorator==4.0.6
 ipython==4.0.2
 ipython-genutils==0.1.0
