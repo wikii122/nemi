@@ -22,7 +22,7 @@ def learn(input, output):
 
     learning, validating = dataset.splitWithProportion(0.8)
     nn.set_learning_data(learning)
-    nn.train(100)
+    nn.train(1)
 
     result = nn.calculate(validating)
 
@@ -38,10 +38,11 @@ def run(path):
     y_mod, y = learn(ins, outs)
     e = sum(sum(x) for x in y-y_mod)
     er = sum(sum(x**2) for x in y-y_mod)
-    
+
     print("Błąd sumaryczny {e}".format(e=e))
     print("Suma średniokwadratowy {e}".format(e=er))
 
+    plot.figure(1)
     plot.plot(y_mod)
     plot.plot(y)
 
