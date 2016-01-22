@@ -38,6 +38,7 @@ class RecurrentNeuralNetwork:
         """
         Train the network
         """
+        self.n.reset()
         trainer = BackpropTrainer(self.n, self.ds_learn, verbose=True, momentum=0.1, weightdecay=0.01)
         return trainer.trainEpochs(epochs=epochs)
 
@@ -46,11 +47,13 @@ class RecurrentNeuralNetwork:
         Return error value for given dataset
         """
         v = Validator()
+        self.n.reset()
         return v.MSE(self.n, dataset)
 
     def calculate(self, dataset):
         """
         Return network response for given dataset
         """
+        self.n.reset()
         return self.n.activateOnDataset(dataset)
 
