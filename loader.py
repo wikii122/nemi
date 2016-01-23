@@ -29,3 +29,67 @@ def from_csv(path, ignore_units=True):
                 data[name].append(item)
 
     return data
+
+def normalize(dict):
+	"""
+	Normalizes data in given dict to be centered around 0 and have a std deviation of 1.
+
+	Please note data after analysis should be denormalized.
+	"""
+
+	ret = {}
+
+	average = get_average(dict)
+	variance = get_variance(dict, average)
+
+	for key, list in dict:
+		ret[key] = []
+		for element in list:
+			val = element - average[key]
+			val /= variance[key]**0.5
+			ret[key].append(val)
+
+	return ret
+
+def get_average(dict):
+	"""
+	Return the average value for every entry in the dict
+	"""
+	
+	ret = {}
+
+	for key, list in dict:
+		ret[key] = 0
+		num = 0
+
+		for element in list:
+			ret[key] += element
+			num += 1
+
+		if num > 0:
+			ret[key] /= num
+
+	return ret
+
+def get_variance(dict, average = None): 
+	"""
+	Returns the variance of data in the dict
+	"""
+	if average is None:
+		average = get_average(dict)
+
+	ret = {}
+
+	for key, list in dict:
+		ret[key] = 0
+		num = 0
+
+		for element in list:
+			ret[key] += (element - average[key])**2
+			num += num
+
+		if num > 0:
+			ret[key] /= num
+
+	return ret
+
