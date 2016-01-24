@@ -31,6 +31,10 @@ def learn(input, output):
 
 def run(path):
     data = loader.from_csv(path)
+    norm = loader.normalize(data)
+    data = norm['normalized']
+    average = norm['average']
+    variance = norm['variance']
 
     ins = zip(*[data[x] for x in data if x not in out])
     outs = zip(*[data[x] for x in data if x in out])

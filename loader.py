@@ -39,17 +39,23 @@ def normalize(dict):
 
 	ret = {}
 
+	print("Averaging")
 	average = get_average(dict)
+	print("Averaged")
+	print("Variancing")
 	variance = get_variance(dict, average)
+	print("Varianced")
 
-	for key, list in dict:
+	print("Normalizing")
+	for key, list in dict.items():
 		ret[key] = []
 		for element in list:
-			val = element - average[key]
+			val = float(element) - average[key]
 			val /= variance[key]**0.5
 			ret[key].append(val)
+	print("Normalized")
 
-	return ret
+	return {'normalized': ret, 'average': average, 'variance': variance}
 
 def get_average(dict):
 	"""
@@ -58,12 +64,12 @@ def get_average(dict):
 	
 	ret = {}
 
-	for key, list in dict:
+	for key, list in dict.items():
 		ret[key] = 0
 		num = 0
 
 		for element in list:
-			ret[key] += element
+			ret[key] += float(element)
 			num += 1
 
 		if num > 0:
@@ -80,12 +86,12 @@ def get_variance(dict, average = None):
 
 	ret = {}
 
-	for key, list in dict:
+	for key, list in dict.items():
 		ret[key] = 0
 		num = 0
 
 		for element in list:
-			ret[key] += (element - average[key])**2
+			ret[key] += (float(element) - average[key])**2
 			num += num
 
 		if num > 0:
