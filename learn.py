@@ -40,6 +40,9 @@ def run(path):
     outs = zip(*[data[x] for x in data if x in out])
 
     y_mod, y = learn(ins, outs)
+    y = loader.denormalize(y, average, variance)
+    y_mod = loader.denormalize(y_mod, average, variance)
+
     e = sum(sum(x) for x in y-y_mod)
     er = sum(sum(x**2) for x in y-y_mod)
 
