@@ -1,8 +1,9 @@
 from pybrain.structure import RecurrentNetwork, BiasUnit
-from pybrain.structure.modules import LinearLayer, SigmoidLayer, TanhLayer
+from pybrain.structure.modules import LinearLayer, SigmoidLayer, TanhLayer, LSTMLayer
 from pybrain.structure.connections import FullConnection
 from pybrain.supervised.trainers import BackpropTrainer
 from  pybrain.tools.validation import Validator
+
 
 class RecurrentNeuralNetwork:
     """
@@ -17,15 +18,19 @@ class RecurrentNeuralNetwork:
         self.n.addOutputModule(LinearLayer(nout, name='out'))
 
         self.n.addModule(SigmoidLayer(8, name='hidden2'))
-        self.n.addModule(TanhLayer(nin+nout/2, name='hidden1'))
-        self.n.addModule(BiasUnit(name='bias'))
+        #self.n.addModule(TanhLayer(nin+nout/2, name='hidden1'))
+        #self.n.addModule(BiasUnit(name='bias'))
+        #self.n.addModule(LSTMLayer(name=memory))
 
-        self.n.addConnection(FullConnection(self.n['in'], self.n['hidden1']))
-        self.n.addConnection(FullConnection(self.n['bias'], self.n['hidden1']))
-        self.n.addConnection(FullConnection(self.n['hidden1'], self.n['hidden2']))
+        #self.n.addConnection(FullConnection(self.n['in'], self.n['hidden1']))
+        #self.n.addConnection(FullConnection(self.n['bias'], self.n['hidden1']))
+        #self.n.addConnection(FullConnection(self.n['hidden1'], self.n['hidden2']))
+        #self.n.addConnection(FullConnection(self.n['hidden2'], self.n['out']))
+        #self.n.addConnection(FullConnection(self.n['hidden1'], self.n['memory']))
+        #self.n.addConnection(FullConnection(self.n['memory'], self.n['hidden2']))
+        self.n.addConnection(FullConnection(self.n['in'], self.n['hidden2']))
         self.n.addConnection(FullConnection(self.n['hidden2'], self.n['out']))
-
-        self.n.addRecurrentConnection(FullConnection(self.n['hidden1'], self.n['hidden1']))
+        #self.n.addRecurrentConnection(FullConnection(self.n['hidden1'], self.n['hidden1']))
         self.n.sortModules()
 
     def set_learning_data(self, dataset):
