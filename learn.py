@@ -33,8 +33,14 @@ def run(path):
     data = loader.from_csv(path)
     norm = loader.normalize(data)
     data = norm['normalized']
+    if type(data) is not dict:
+        raise TypeError('Normalized data is not a dict')
     average = norm['average']
+    if type(average) is not dict:
+        raise TypeError('Normalized average is not a dict')
     variance = norm['variance']
+    if type(variance) is not dict:
+        raise TypeError('Normalized variance is not a dict')
 
     ins = zip(*[data[x] for x in data if x not in out])
     outs = zip(*[data[x] for x in data if x in out])
